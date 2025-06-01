@@ -1,0 +1,208 @@
+@page "/join/{SessionId}"
+@using Reply_o_ke.Client.Services
+@using Reply_o_ke.Client.Models
+@inject ApiService ApiService
+@inject SignalRService SignalRService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>Adicionar Música - Reply-O-Ke</PageTitle>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>🎤 Adicionar Música ao Karaoke</h3>
+                </div>
+                <div class="card-body">
+                    @if (!isConnected)
+                    {
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Conectando...</span>
+                            </div>
+                            <p class="mt-3">Conectando à sessão...</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-4">
+                            <label for="userName" class="form-label fw-bold">Seu Nome:</label>
+                            <input type="text" class="form-control" id="userName" @bind="userName" 
+                                   placeholder="Digite seu nome" maxlength="50" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="searchQuery" class="form-label fw-bold">Buscar Música:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchQuery" @bind="searchQuery" 
+                                       @onkeypress="OnSearchKeyPress" placeholder="Digite o nome da música..." />
+                                <button class="btn btn-primary" type="button" @onclick="SearchVideos" disabled="@isSearching">
+                                    @if (isSearching)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                    }
+                                    🔍 Buscar
+                                </button>
+                            </div>
+                        </div>
+
+                        @if (videos.Any())
+                        {
+                            <div class="row">
+                                @foreach (var video in videos)
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="row g-0 h-100">
+                                                <div class="col-4">
+                                                    <img src="@video.ThumbnailUrl" class="img-fluid rounded-start h-100" 
+                                                         style="object-fit: cover;" alt="Thumbnail" />
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="card-body d-flex flex-column h-100">
+                                                        <h6 class="card-title small">@video.Title</h6>
+                                                        <p class="card-text small text-muted">@video.ChannelTitle</p>
+                                                        <div class="mt-auto">
+                                                            <button class="btn btn-success btn-sm w-100" 
+                                                                    @onclick="() => SelectVideo(video)"
+                                                                    disabled="@(string.IsNullOrWhiteSpace(userName))">
+                                                                ✅ Selecionar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        @if (showSuccessMessage)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Sucesso!</strong> Música adicionada à fila do karaoke! 🎉
+                                <button type="button" class="btn-close" @onclick="() => showSuccessMessage = false"></button>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Erro:</strong> @errorMessage
+                                <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                            </div>
+                        }
+
+                        @if (string.IsNullOrWhiteSpace(userName) && videos.Any())
+                        {
+                            <div class="alert alert-warning" role="alert">
+                                ⚠️ Por favor, digite seu nome antes de selecionar uma música.
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string SessionId { get; set; } = string.Empty;
+
+    private bool isConnected = false;
+    private bool isSearching = false;
+    private bool showSuccessMessage = false;
+    private string userName = string.Empty;
+    private string searchQuery = string.Empty;
+    private string errorMessage = string.Empty;
+    private List<YouTubeVideo> videos = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await SignalRService.StartAsync();
+            await SignalRService.JoinSessionAsync(SessionId);
+            isConnected = true;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erro ao conectar: {ex.Message}";
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnSearchKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SearchVideos();
+        }
+    }
+
+    private async Task SearchVideos()
+    {
+        if (string.IsNullOrWhiteSpace(searchQuery))
+            return;
+
+        isSearching = true;
+        errorMessage = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            videos = await ApiService.SearchVideosAsync(searchQuery);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erro na busca: {ex.Message}";
+        }
+        finally
+        {
+            isSearching = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task SelectVideo(YouTubeVideo video)
+    {
+        if (string.IsNullOrWhiteSpace(userName))
+        {
+            errorMessage = "Por favor, digite seu nome antes de selecionar uma música.";
+            return;
+        }
+
+        try
+        {
+            await SignalRService.AddToQueueAsync(SessionId, userName, video.VideoId, video.Title, video.Url);
+            showSuccessMessage = true;
+            searchQuery = string.Empty;
+            videos.Clear();
+            StateHasChanged();
+
+            // Auto-hide success message after 3 seconds
+            _ = Task.Delay(3000).ContinueWith(_ =>
+            {
+                showSuccessMessage = false;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erro ao adicionar música: {ex.Message}";
+            StateHasChanged();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (SignalRService != null)
+        {
+            await SignalRService.DisposeAsync();
+        }
+    }
+}

@@ -1,0 +1,66 @@
+/* MainLayout styles moved to wwwroot/css for static serving in production */
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+:root {
+    --reply-green: #86BC25;
+    --reply-dark: #222;
+    --reply-white: #fff;
+    --bs-primary-rgb: 134,188,37; /* Verde Reply */
+    --bs-success-rgb: 134,188,37; /* Verde Reply para btn-success */
+    --bs-success: #86BC25 !important;
+    --bs-btn-bg: #86BC25 !important;
+    --bs-btn-border-color: #86BC25 !important;
+}
+
+.reply-header {
+    background: var(--reply-dark);
+    padding: 16px 0 8px 0;
+    text-align: center;
+}
+.reply-logo {
+    height: 48px;
+    max-width: 180px;
+}
+
+.page {
+    background: var(--reply-white);
+    min-height: 100vh;
+}
+
+.btn-primary, .bg-primary, .btn-success, .btn-outline-success {
+    background-color: var(--reply-green) !important;
+    border-color: var(--reply-green) !important;
+    color: var(--reply-white) !important;
+}
+
+.btn-outline-success {
+    background-color: transparent !important;
+    color: var(--reply-green) !important;
+    border-color: var(--reply-green) !important;
+}
+
+.text-primary {
+    color: var(--reply-green) !important;
+}
+
+.card-header {
+    background: var(--reply-green) !important;
+    color: var(--reply-white) !important;
+}
