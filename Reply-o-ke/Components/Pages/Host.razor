@@ -8,6 +8,7 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 @rendermode InteractiveServer
+<link href="/css/host.css" rel="stylesheet" />
 
 <PageTitle>Host - Reply-O-Ke</PageTitle>
 
@@ -155,72 +156,6 @@
         <div class="qrcode-label">Escaneie para entrar</div>
     </div>
 }
-
-<style>
-    .fullscreen-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: #000;
-        z-index: 2000; /* Reduzido para garantir que o QRCode fique acima */
-        display: flex;
-        flex-direction: column;
-        color: white;
-    }
-
-    .video-info {
-        text-align: center;
-        padding: 20px;
-        background: rgba(0,0,0,0.8);
-    }
-
-    .video-container {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-
-        .video-container iframe {
-            width: 90vw;
-            height: 60vh;
-            max-width: 1200px;
-            max-height: 675px;
-        }
-
-    .video-controls {
-        text-align: center;
-        padding: 20px;
-        background: rgba(0,0,0,0.8);
-    }
-
-    .qrcode-fixed {
-        position: fixed;
-        right: 32px;
-        bottom: 32px;
-        background: rgba(255,255,255,0.95);
-        border-radius: 16px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-        padding: 16px 20px 8px 20px;
-        z-index: 3001; /* Aumentado para garantir que fique acima do fullscreen-video */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .qrcode-fixed img {
-        display: block;
-        margin-bottom: 4px;
-    }
-    .qrcode-label {
-        font-size: 0.95rem;
-        color: #333;
-        text-align: center;
-        margin-top: 2px;
-    }
-</style>
 
 @code {
     [Parameter] public string SessionId { get; set; } = string.Empty;
