@@ -341,6 +341,7 @@
             isFullscreen = false;
             isPlayingVideo = false;
             currentVideo = null;
+            await LoadQueue(); // Garante atualização imediata da fila
             StateHasChanged();
         }
         catch (Exception ex)
@@ -349,9 +350,12 @@
         }
     }
 
-    private void ExitFullscreen()
+    private async void ExitFullscreen()
     {
         isFullscreen = false;
+        isPlayingVideo = false;
+        currentVideo = null;
+        await LoadQueue(); // Garante atualização imediata da fila
         StateHasChanged();
     }
     private string GetVideoId(string url)
