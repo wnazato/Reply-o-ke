@@ -1,36 +1,69 @@
-/* Join page styles */
-.card {
-    border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10), 0 1.5px 4px rgba(0,0,0,0.08);
-    border: none;
+/* Join page styles - Enhanced */
+.join-container {
+    background: linear-gradient(135deg, #f8faf5 0%, #ffffff 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+    position: relative;
 }
+
+.card {
+    border-radius: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+    border: none;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.95);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.06);
+}
+
 .card-header {
-    border-radius: 18px 18px 0 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    background: linear-gradient(90deg, #86BC25 60%, #b6d96b 100%);
+    border-radius: 24px 24px 0 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.025em;
+    background: linear-gradient(135deg, #86BC25 0%, #b6d96b 100%);
     color: #fff;
     border-bottom: none;
+    padding: 2rem 2.5rem 1.5rem 2.5rem;
+    position: relative;
+    text-align: center;
 }
+
 .card-body {
-    background: #f8faf5;
-    border-radius: 0 0 18px 18px;
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    background: linear-gradient(135deg, #f8faf5 0%, #ffffff 100%);
+    border-radius: 0 0 24px 24px;
+    padding: 2.5rem;
 }
+
 .btn {
-    border-radius: 8px;
+    border-radius: 12px;
     font-weight: 600;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 1px 4px rgba(134,188,37,0.08);
+    font-size: 1.1rem;
+    padding: 1rem 2.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.025em;
 }
+
 .btn-primary, .btn-success {
-    background: #86BC25;
-    border-color: #86BC25;
+    background: linear-gradient(135deg, #86BC25 0%, #6fa01e 100%);
+    border: none;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(134,188,37,0.25);
 }
+
 .btn-primary:hover, .btn-success:hover {
-    background: #6fa01e;
-    border-color: #6fa01e;
+    background: linear-gradient(135deg, #6fa01e 0%, #5a8619 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(134,188,37,0.35);
     color: #fff;
 }
 .btn-secondary {

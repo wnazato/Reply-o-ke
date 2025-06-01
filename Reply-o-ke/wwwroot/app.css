@@ -29,69 +29,243 @@ h1:focus {
 }
 
 /* Reply-O-Ke Custom Styles */
+:root {
+    --reply-primary: #86BC25;
+    --reply-primary-hover: #6fa01e;
+    --reply-primary-light: #b6d96b;
+    --reply-secondary: #f8faf5;
+    --reply-accent: #4a5568;
+    --reply-dark: #2d3748;
+    --reply-light: #f7fafc;
+    --reply-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    --reply-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.15);
+    --reply-border-radius: 12px;
+    --reply-border-radius-lg: 18px;
+}
+
 html, body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
     padding: 0;
     height: 100%;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--reply-dark);
+    scroll-behavior: smooth;
 }
 
 .bg-gradient {
-    background: linear-gradient(135deg, #86BC25 0%, #222 100%);
+    background: linear-gradient(135deg, var(--reply-primary) 0%, #4a6741 50%, #2d3748 100%);
     min-height: 100vh;
+    position: relative;
+}
+
+.bg-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(134, 188, 37, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(134, 188, 37, 0.08) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 .text-primary {
-    color: #86BC25 !important;
+    color: var(--reply-primary) !important;
 }
 
 .btn-primary, .btn-success, .btn-outline-success {
-    background-color: #86BC25 !important;
-    border-color: #86BC25 !important;
+    background-color: var(--reply-primary) !important;
+    border-color: var(--reply-primary) !important;
     color: #fff !important;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover, .btn-success:hover {
+    background-color: var(--reply-primary-hover) !important;
+    border-color: var(--reply-primary-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--reply-shadow-hover);
 }
 
 .btn-outline-success {
     background-color: transparent !important;
-    color: #86BC25 !important;
-    border-color: #86BC25 !important;
+    color: var(--reply-primary) !important;
+    border-color: var(--reply-primary) !important;
 }
 
-.card-header {
-    background: #86BC25 !important;
+.btn-outline-success:hover {
+    background-color: var(--reply-primary) !important;
     color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: var(--reply-shadow);
 }
 
-/* Remove estilos antigos do tema roxo/azul */
+/* Enhanced Card Styles */
 .card {
     border: none;
-    border-radius: 15px;
+    border-radius: var(--reply-border-radius-lg);
     overflow: hidden;
+    box-shadow: var(--reply-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--reply-shadow-hover);
 }
 
 .card-header {
+    background: linear-gradient(135deg, var(--reply-primary) 0%, var(--reply-primary-light) 100%) !important;
+    color: #fff !important;
     border-bottom: none;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    position: relative;
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Enhanced Table Styles */
+.table {
+    border-radius: var(--reply-border-radius);
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background: linear-gradient(135deg, var(--reply-primary) 0%, var(--reply-primary-light) 100%);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    padding: 1rem;
+}
+
+.table tbody tr {
+    transition: all 0.2s ease;
 }
 
 .table-hover tbody tr:hover {
-    background-color: rgba(102, 126, 234, 0.1);
+    background-color: rgba(134, 188, 37, 0.08);
+    transform: scale(1.005);
 }
 
+/* Enhanced Buttons */
+.btn {
+    border-radius: var(--reply-border-radius);
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+/* Form Controls */
+.form-control, .form-select {
+    border-radius: var(--reply-border-radius);
+    border: 2px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--reply-primary);
+    box-shadow: 0 0 0 3px rgba(134, 188, 37, 0.1);
+}
+
+/* Enhanced Badges */
 .badge {
     font-size: 0.8em;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--reply-border-radius);
+    letter-spacing: 0.025em;
 }
 
+/* Loading Spinner */
 .spinner-border {
-    animation: spinner-border .75s linear infinite;
+    animation: spinner-border 0.75s linear infinite;
 }
 
+/* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 .fade-in {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-in-left {
+    animation: slideInFromLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
 }
 
 /* YouTube video responsive */
@@ -99,7 +273,9 @@ html, body {
     position: relative;
     padding-bottom: 56.25%;
     height: 0;
+    border-radius: var(--reply-border-radius);
     overflow: hidden;
+    box-shadow: var(--reply-shadow);
 }
 
 .video-responsive iframe {

@@ -51,12 +51,15 @@
                     </button>
                 </div>
             </div>
-        }
-        else
+            <div class="qrcode-fixed">
+                <img src="data:image/png;base64,@SessionQRCode" alt="QR Code da Sessão" style="height:150px;" />
+                <div class="qrcode-label">Escaneie para entrar</div>
+    </div>
+        }        else
         {
             <!-- Interface normal do host -->
             <div class="row">
-                <div class="col-12">
+                <div class="col-lg-8 col-md-7">
                     <div class="card shadow mt-3">
                         <div class="card-header bg-primary text-white">
                             <div class="d-flex justify-content-between align-items-center">
@@ -141,21 +144,43 @@
                                     <h4>Fila Vazia</h4>
                                     <p class="text-muted">Aguardando participantes adicionarem músicas...</p>
                                 </div>
-                            }
-                        </div>
+                            }                        </div>
                     </div>
                 </div>
+                
+                <!-- QR Code Sidebar -->
+                <div class="col-lg-4 col-md-5">
+                    @if (!string.IsNullOrEmpty(SessionQRCode))
+                    {
+                        <div class="card shadow mt-3">
+                            <div class="card-header bg-primary text-white text-center">
+                                <h5>📱 Entrada de Participantes</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="qrcode-sidebar">
+                                    <img src="data:image/png;base64,@SessionQRCode" alt="QR Code da Sessão" class="qr-image" />
+                                    <p class="qr-label">Escaneie para entrar</p>
+                                    <div class="session-info">
+                                        <small class="text-muted">ID da Sessão:</small>
+                                        <div class="session-id">@SessionId</div>
+                                    </div>
+                                    <div class="join-link">
+                                        <small class="text-muted">Link direto:</small>
+                                        <div class="input-group input-group-sm mt-2">
+                                            <input type="text" class="form-control" value="@GetJoinUrl()" readonly />
+                                            <button class="btn btn-outline-secondary btn-sm" @onclick="CopySessionLink">
+                                                📋
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
-        }
-    }
+        }    }
 </div>
-@if (!string.IsNullOrEmpty(SessionQRCode))
-{
-    <div class="qrcode-fixed">
-        <img src="data:image/png;base64,@SessionQRCode" alt="QR Code da Sessão" style="height:150px;" />
-        <div class="qrcode-label">Escaneie para entrar</div>
-    </div>
-}
 
 @code {
     [Parameter] public string SessionId { get; set; } = string.Empty;
