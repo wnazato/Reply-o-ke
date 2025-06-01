@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Reply-o-ke/bin
+/Reply-o-ke/obj
+/Reply-o-ke.Client/bin
+/Reply-o-ke.Client/obj
