@@ -3,7 +3,7 @@ using Reply_o_ke.Client.Models;
 
 namespace Reply_o_ke.Client.Services
 {
-    public class ApiService
+    public partial class ApiService
     {
         private readonly HttpClient _httpClient;
 
@@ -63,10 +63,19 @@ namespace Reply_o_ke.Client.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public Task<SessionResponse?> GetSessionAsync(string sessionId)
+        public async Task<SessionResponse?> GetSessionAsync(string sessionId)
         {
-            // Removido, rollback para não buscar QRCode por sessionId
-            return Task.FromResult<SessionResponse?>(null);
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/session/{sessionId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<SessionResponse>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting session: {ex.Message}");
+                return null;
+            }
         }
     }
 

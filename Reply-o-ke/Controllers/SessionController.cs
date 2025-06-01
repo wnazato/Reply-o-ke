@@ -39,8 +39,17 @@ namespace Reply_o_ke.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(session);
+            var joinUrl = $"{Request.Scheme}://{Request.Host}/join/{sessionId}";
+            var qrCodeBase64 = _qrCodeService.GenerateQRCodeBase64(joinUrl);
+            return Ok(new
+            {
+                SessionId = session.Id,
+                JoinUrl = joinUrl,
+                QRCode = qrCodeBase64,
+                CreatedAt = session.CreatedAt,
+                IsActive = session.IsActive,
+                Queue = session.Queue
+            });
         }
 
         [HttpGet("{sessionId}/queue")]

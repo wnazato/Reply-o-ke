@@ -217,6 +217,7 @@
     {
         try
         {
+            await GetQrCode(SessionId);
             await SignalRService.StartAsync();
             await SignalRService.JoinAsHostAsync(SessionId);
 
@@ -250,13 +251,36 @@
             isConnected = true;
             await LoadQueue();
             StateHasChanged();
+
+
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Erro ao conectar: {ex.Message}");
         }
     }
-
+    private async Task GetQrCode(string sessionId)
+    {
+        StateHasChanged();
+        try
+        {
+            var response = await ApiService.GetSessionAsync(sessionId);
+            if (response != null)
+            {
+                sessionId = response.SessionId;
+                SessionQRCode = response.QRCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao recuperar a sessão: {ex.Message}");
+            // TODO: Adicionar notificação de erro
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
     private async Task LoadQueue()
     {
         try
