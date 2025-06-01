@@ -48,14 +48,15 @@
 }
 
 .navbar-brand:hover {
-    color: var(--reply-green) !important;
-    transform: translateY(-1px);
+    /* Remove efeito de hover do texto */
+    color: white !important;
+    transform: none;
 }
 
 .brand-text {
     background: linear-gradient(135deg, white 0%, var(--reply-green) 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /*-webkit-text-fill-color: transparent;*/
     background-clip: text;
     font-weight: 800;
     letter-spacing: -0.5px;
