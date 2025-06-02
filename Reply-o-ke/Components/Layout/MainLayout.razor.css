@@ -48,9 +48,8 @@
 }
 
 .navbar-brand:hover {
-    /* Remove efeito de hover do texto */
-    color: white !important;
-    transform: none;
+    color: var(--reply-green) !important;
+    transform: translateY(-1px);
 }
 
 .brand-text {
